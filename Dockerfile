@@ -36,8 +36,8 @@ RUN touch /var/run/nginx.pid && \
 
 USER nginx
 
-# Expose port 80 for the NGINX server
-EXPOSE 80
+# Expose port 8080 for the NGINX server
+EXPOSE 8080
 
 # Command to start NGINX when the container is run
 CMD ["nginx", "-g", "daemon off;"]
