@@ -141,7 +141,7 @@ jobs:
             mkdir -p ~/perbaikiinaja
 
             # Create or update docker-compose.yml in that folder
-            cat > ~/perbaikiinaja/docker-compose.yml << 'EOL'
+            cat > ~/perbaikiinaja/docker-compose.yml << EOL
             version: '3'
             services:
               perbaikiinaja-frontend:
