@@ -161,10 +161,6 @@ jobs:
             EOL
 
             # Export environment variables
-            export PG_HOST="${PG_HOST}"
-            export PG_USER="${PG_USER}"
-            export PG_PASS="${PG_PASS}"
-            export JWT_SECRET_KEY="${JWT_SECRET_KEY}"
             export PORT="${PORT}"
             export DOCKERHUB_USERNAME="${DOCKERHUB_USERNAME}"
           
