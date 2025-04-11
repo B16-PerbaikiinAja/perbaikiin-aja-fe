@@ -82,11 +82,11 @@ jobs:
           PORT: ${{ secrets.PORT || '8080' }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
-          ssh $EC2_USERNAME@$EC2_HOST << 'EOF'
+          ssh $EC2_USERNAME@$EC2_HOST "bash -s" << 'ENDSSH'
             # Check which Linux distribution we're working with
             echo "Linux distribution information:"
             cat /etc/*release*
-          
+            
             # Install Docker for Amazon Linux 2
             if grep -q "Amazon Linux" /etc/*release*; then
               echo "Installing Docker on Amazon Linux..."
@@ -140,8 +140,7 @@ jobs:
             # Create a folder for the application if it doesn't exist
             mkdir -p ~/perbaikiinaja
 
-            # Create or update docker-compose.yml in that folder
-            cat > ~/perbaikiinaja/docker-compose.yml << 'EOL'
+            cat > ~/perbaikiinaja/docker-compose.yml << EOF
             version: '3'
             services:
               perbaikiinaja-frontend:
@@ -152,17 +151,8 @@ jobs:
                   - "${PORT}:8080"
                 environment:
                   - PORT=8080
-            EOL
+            EOF
 
-            # Export environment variables
-            export PORT="${PORT}"
-            export DOCKERHUB_USERNAME="${DOCKERHUB_USERNAME}"
-          
-            # Substitute environment variables in docker-compose.yml
-            cd ~/perbaikiinaja
-            envsubst < docker-compose.yml > docker-compose-updated.yml
-            mv docker-compose-updated.yml docker-compose.yml
-          
             # Ensure Docker is running
             sudo service docker status || sudo service docker start
           
@@ -188,4 +178,4 @@ jobs:
               docker logs perbaikiinaja-frontend
               exit 1
             fi
-          EOF
+          ENDSSH
