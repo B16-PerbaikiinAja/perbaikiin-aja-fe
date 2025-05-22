@@ -62,7 +62,7 @@ const authService = {
     }
   },
   
-  /**
+    /**
    * Log in a user
    * @param {Object} credentials - Login credentials (email, password)
    * @returns {Promise} - Login response with token
@@ -86,7 +86,15 @@ const authService = {
       
       // Store token and user data in localStorage
       localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user || {}));
+      
+      // Store the complete user object (since backend now returns user data directly)
+      const userData = {
+        id: data.id,
+        fullName: data.fullName,
+        email: data.email,
+        role: data.role
+      };
+      localStorage.setItem('user', JSON.stringify(userData));
       
       return data;
     } catch (error) {
