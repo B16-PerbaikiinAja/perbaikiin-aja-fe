@@ -60,7 +60,15 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const data = await authService.login(credentials);
-      setUser(data.user || {});
+      
+      // ✅ FIX: Extract user data from response properly
+      const userData = {
+        fullName: data.fullName,
+        email: data.email,
+        role: data.role
+      };
+      
+      setUser(userData);
       return data;
     } catch (error) {
       throw error;
