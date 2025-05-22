@@ -11,6 +11,10 @@ import Logout from './auth/components/Logout';
 
 // Import components
 import Dashboard from './components/Dashboard';
+
+// Import service requests feature
+import { TechnicianServiceRequests, CustomerServiceRequests } from './feature-3';
+
 const NotFound = () => <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif'}}>404 - Page Not Found</div>;
 
 // Protected route component
@@ -37,6 +41,36 @@ const AdminRoute = ({ children }) => {
   }
   
   if (!isAdmin) {
+    return <Navigate to="/dashboard" />;
+  }
+  
+  return children;
+};
+
+// Technician route component
+const TechnicianRoute = ({ children }) => {
+  const { isTechnician, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isTechnician) {
+    return <Navigate to="/dashboard" />;
+  }
+  
+  return children;
+};
+
+// Customer route component
+const CustomerRoute = ({ children }) => {
+  const { isCustomer, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isCustomer) {
     return <Navigate to="/dashboard" />;
   }
   
@@ -85,6 +119,20 @@ function App() {
             <AdminRoute>
               <RegisterTechnician />
             </AdminRoute>
+          } />
+          
+          {/* Technician routes */}
+          <Route path="/technician/service-requests" element={
+            <TechnicianRoute>
+              <TechnicianServiceRequests />
+            </TechnicianRoute>
+          } />
+          
+          {/* Customer routes */}
+          <Route path="/customer/service-requests" element={
+            <CustomerRoute>
+              <CustomerServiceRequests />
+            </CustomerRoute>
           } />
           
           {/* Redirect from home to dashboard if logged in, otherwise to login */}
