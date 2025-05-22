@@ -1,6 +1,7 @@
 // src/components/Dashboard.js
 import React from 'react';
 import { useAuth } from '../auth/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import DashboardNavbar from './DashboardNavbar';
 
 const styles = {
@@ -40,6 +41,11 @@ const styles = {
     boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
     padding: '25px',
     transition: 'transform 0.3s, box-shadow 0.3s',
+    cursor: 'pointer',
+    border: 'none',
+    textAlign: 'left',
+    width: '100%',
+    fontFamily: 'Poppins, sans-serif',
   },
   cardHover: {
     transform: 'translateY(-5px)',
@@ -54,15 +60,35 @@ const styles = {
     fontSize: '18px',
     fontWeight: '600',
     marginBottom: '10px',
+    color: '#333',
   },
   cardDescription: {
     fontSize: '14px',
     color: '#666',
   },
+  // For non-implemented features
+  disabledCard: {
+    backgroundColor: '#f8f9fa',
+    cursor: 'not-allowed',
+    opacity: 0.6,
+  },
+  disabledCardHover: {
+    transform: 'none',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+  },
 };
 
 const Dashboard = () => {
   const { user, isAdmin, isTechnician, isCustomer } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCardClick = (path) => {
+    if (path) {
+      navigate(path);
+    } else {
+      alert('This feature is coming soon!');
+    }
+  };
 
   // Different content based on user role
   const getRoleSpecificContent = () => {
@@ -77,8 +103,10 @@ const Dashboard = () => {
           </div>
           
           <div style={styles.cardsContainer}>
-            <div 
+            {/* Manage Technicians - Implemented */}
+            <button 
               style={styles.card}
+              onClick={() => handleCardClick('/admin/register-technician')}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = styles.cardHover.transform;
                 e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
@@ -93,13 +121,15 @@ const Dashboard = () => {
               <p style={styles.cardDescription}>
                 Register and manage technician accounts for your service team.
               </p>
-            </div>
+            </button>
             
-            <div 
-              style={styles.card}
+            {/* View Reports - Not implemented yet */}
+            <button 
+              style={{...styles.card, ...styles.disabledCard}}
+              onClick={() => handleCardClick(null)}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+                e.currentTarget.style.transform = styles.disabledCardHover.transform;
+                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -109,15 +139,17 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>📊</div>
               <h3 style={styles.cardTitle}>View Reports</h3>
               <p style={styles.cardDescription}>
-                Access service reports and track performance metrics.
+                Access service reports and track performance metrics. (Coming Soon)
               </p>
-            </div>
+            </button>
             
-            <div 
-              style={styles.card}
+            {/* Manage Coupons - Not implemented yet */}
+            <button 
+              style={{...styles.card, ...styles.disabledCard}}
+              onClick={() => handleCardClick(null)}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+                e.currentTarget.style.transform = styles.disabledCardHover.transform;
+                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -127,9 +159,9 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>🎟️</div>
               <h3 style={styles.cardTitle}>Manage Coupons</h3>
               <p style={styles.cardDescription}>
-                Create and manage discount coupons for your customers.
+                Create and manage discount coupons for your customers. (Coming Soon)
               </p>
-            </div>
+            </button>
           </div>
         </div>
       );
@@ -144,8 +176,10 @@ const Dashboard = () => {
           </div>
           
           <div style={styles.cardsContainer}>
-            <div 
+            {/* Service Requests - Implemented */}
+            <button 
               style={styles.card}
+              onClick={() => handleCardClick('/technician/service-requests')}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = styles.cardHover.transform;
                 e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
@@ -160,10 +194,12 @@ const Dashboard = () => {
               <p style={styles.cardDescription}>
                 View and manage incoming service requests from customers.
               </p>
-            </div>
+            </button>
             
-            <div 
+            {/* Create Reports - Accessible from Service Requests page */}
+            <button 
               style={styles.card}
+              onClick={() => handleCardClick('/technician/service-requests')}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = styles.cardHover.transform;
                 e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
@@ -178,13 +214,15 @@ const Dashboard = () => {
               <p style={styles.cardDescription}>
                 Submit reports for completed service requests.
               </p>
-            </div>
+            </button>
             
-            <div 
-              style={styles.card}
+            {/* Earnings - Not implemented yet */}
+            <button 
+              style={{...styles.card, ...styles.disabledCard}}
+              onClick={() => handleCardClick(null)}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+                e.currentTarget.style.transform = styles.disabledCardHover.transform;
+                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -194,9 +232,9 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>💰</div>
               <h3 style={styles.cardTitle}>Earnings</h3>
               <p style={styles.cardDescription}>
-                Track your completed jobs and total earnings.
+                Track your completed jobs and total earnings. (Coming Soon)
               </p>
-            </div>
+            </button>
           </div>
         </div>
       );
@@ -212,11 +250,13 @@ const Dashboard = () => {
           </div>
           
           <div style={styles.cardsContainer}>
-            <div 
-              style={styles.card}
+            {/* Request Repair - Will be implemented by feature 2 team */}
+            <button 
+              style={{...styles.card, ...styles.disabledCard}}
+              onClick={() => handleCardClick(null)}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+                e.currentTarget.style.transform = styles.disabledCardHover.transform;
+                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -226,15 +266,17 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>📱</div>
               <h3 style={styles.cardTitle}>Request Repair</h3>
               <p style={styles.cardDescription}>
-                Submit a new repair request for your device or item.
+                Submit a new repair request for your device or item. (Coming Soon)
               </p>
-            </div>
+            </button>
             
-            <div 
-              style={styles.card}
+            {/* Track Orders - Will be implemented by feature 2 team */}
+            <button 
+              style={{...styles.card, ...styles.disabledCard}}
+              onClick={() => handleCardClick(null)}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+                e.currentTarget.style.transform = styles.disabledCardHover.transform;
+                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -244,15 +286,17 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>🔍</div>
               <h3 style={styles.cardTitle}>Track Orders</h3>
               <p style={styles.cardDescription}>
-                View and track the status of your repair orders.
+                View and track the status of your repair orders. (Coming Soon)
               </p>
-            </div>
+            </button>
             
-            <div 
-              style={styles.card}
+            {/* Reviews - Not implemented yet */}
+            <button 
+              style={{...styles.card, ...styles.disabledCard}}
+              onClick={() => handleCardClick(null)}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+                e.currentTarget.style.transform = styles.disabledCardHover.transform;
+                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -262,9 +306,9 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>⭐</div>
               <h3 style={styles.cardTitle}>Reviews</h3>
               <p style={styles.cardDescription}>
-                Leave reviews for technicians who have completed your repairs.
+                Leave reviews for technicians who have completed your repairs. (Coming Soon)
               </p>
-            </div>
+            </button>
           </div>
         </div>
       );

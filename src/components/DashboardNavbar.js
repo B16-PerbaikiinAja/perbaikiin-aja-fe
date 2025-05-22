@@ -77,7 +77,7 @@ const styles = {
 };
 
 const DashboardNavbar = () => {
-  const { user, logout, isAdmin, isTechnician } = useAuth();
+  const { user, logout, isAdmin, isTechnician, isCustomer } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -116,15 +116,50 @@ const DashboardNavbar = () => {
           Dashboard
         </Link>
         
-        {isAdmin && (
+        {/* Technician specific navigation */}
+        {isTechnician && (
           <Link 
-            to="/admin/register-technician" 
+            to="/technician/service-requests" 
             style={styles.navItem}
             onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
             onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
           >
-            Register Technician
+            My Requests
           </Link>
+        )}
+        
+        {/* Customer specific navigation */}
+        {isCustomer && (
+          <Link 
+            to="/customer/service-requests" 
+            style={styles.navItem}
+            onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+            onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+          >
+            My Orders
+          </Link>
+        )}
+        
+        {/* Admin specific navigation */}
+        {isAdmin && (
+          <>
+            <Link 
+              to="/admin/register-technician" 
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+            >
+              Register Technician
+            </Link>
+            <Link 
+              to="/admin/reports" 
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+            >
+              Reports
+            </Link>
+          </>
         )}
         
         <div style={styles.userInfoContainer}>
