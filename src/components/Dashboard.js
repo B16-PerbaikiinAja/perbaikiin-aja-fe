@@ -239,7 +239,7 @@ const Dashboard = () => {
         </div>
       );
     } else {
-      // Customer dashboard
+      // Customer dashboard with Feature 2 implemented
       return (
         <div>
           <div style={styles.welcomeSection}>
@@ -250,13 +250,13 @@ const Dashboard = () => {
           </div>
           
           <div style={styles.cardsContainer}>
-            {/* Request Repair - Will be implemented by feature 2 team */}
+            {/* Request Repair - Feature 2 implemented */}
             <button 
-              style={{...styles.card, ...styles.disabledCard}}
-              onClick={() => handleCardClick(null)}
+              style={styles.card}
+              onClick={() => handleCardClick('/customer/service-requests')}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.disabledCardHover.transform;
-                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
+                e.currentTarget.style.transform = styles.cardHover.transform;
+                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -266,17 +266,17 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>📱</div>
               <h3 style={styles.cardTitle}>Request Repair</h3>
               <p style={styles.cardDescription}>
-                Submit a new repair request for your device or item. (Coming Soon)
+                Submit a new repair request for your device or item and manage existing requests.
               </p>
             </button>
             
-            {/* Track Orders - Will be implemented by feature 2 team */}
+            {/* Track Orders - Feature 2 implemented */}
             <button 
-              style={{...styles.card, ...styles.disabledCard}}
-              onClick={() => handleCardClick(null)}
+              style={styles.card}
+              onClick={() => handleCardClick('/customer/service-requests')}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.disabledCardHover.transform;
-                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
+                e.currentTarget.style.transform = styles.cardHover.transform;
+                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -286,10 +286,30 @@ const Dashboard = () => {
               <div style={styles.cardIcon}>🔍</div>
               <h3 style={styles.cardTitle}>Track Orders</h3>
               <p style={styles.cardDescription}>
-                View and track the status of your repair orders. (Coming Soon)
+                View and track the status of your repair orders and service history.
               </p>
             </button>
             
+            {/* Service History - Alternative view using Feature 3 */}
+            <button 
+              style={styles.card}
+              onClick={() => handleCardClick('/customer/requests-tracker')}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = styles.cardHover.transform;
+                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = styles.card.boxShadow;
+              }}
+            >
+              <div style={styles.cardIcon}>📋</div>
+              <h3 style={styles.cardTitle}>Service History</h3>
+              <p style={styles.cardDescription}>
+                View detailed service history and respond to estimates from technicians.
+              </p>
+            </button>
+
             {/* Reviews - Not implemented yet */}
             <button 
               style={{...styles.card, ...styles.disabledCard}}
