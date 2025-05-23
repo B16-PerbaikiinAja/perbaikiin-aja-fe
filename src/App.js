@@ -12,8 +12,9 @@ import Logout from './auth/components/Logout';
 // Import components
 import Dashboard from './components/Dashboard';
 
-// Import service requests feature
-import { TechnicianServiceRequests, CustomerServiceRequests } from './feature-3';
+// Import service requests features
+import { TechnicianServiceRequests, CustomerServiceRequests as Feature3CustomerServiceRequests } from './feature-3';
+import { CustomerServiceRequests } from './feature-2';
 
 const NotFound = () => <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif'}}>404 - Page Not Found</div>;
 
@@ -128,10 +129,17 @@ function App() {
             </TechnicianRoute>
           } />
           
-          {/* Customer routes */}
+          {/* Customer routes - Feature 2 Implementation */}
           <Route path="/customer/service-requests" element={
             <CustomerRoute>
               <CustomerServiceRequests />
+            </CustomerRoute>
+          } />
+          
+          {/* Customer routes - Feature 3 (Alternative view) */}
+          <Route path="/customer/requests-tracker" element={
+            <CustomerRoute>
+              <Feature3CustomerServiceRequests />
             </CustomerRoute>
           } />
           
