@@ -8,7 +8,9 @@ import Login from './auth/components/Login';
 import RegisterCustomer from './auth/components/RegisterCustomer';
 import RegisterTechnician from './auth/components/RegisterTechnician';
 import Logout from './auth/components/Logout';
-import ReviewSection from './review/components/ReviewSection';
+import ReviewSection from './review/components/ReviewList';
+import ReviewSection from './review/components/CreateReview';
+import ReviewSection from './review/components/EditReview';
 
 // Import components
 import Dashboard from './components/Dashboard';
