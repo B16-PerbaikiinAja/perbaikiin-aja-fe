@@ -210,7 +210,6 @@ const EstimateForm = ({ serviceRequest, onSubmit, onCancel, isLoading }) => {
               style={styles.input}
               placeholder="e.g., 150000"
               min="1"
-              step="1000"
               disabled={isLoading}
               required
             />
