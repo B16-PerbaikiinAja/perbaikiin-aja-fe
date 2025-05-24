@@ -119,6 +119,45 @@ const customerServiceRequestService = {
       throw error;
     }
   },
+  /**
+   * Respond to an estimate (accept or reject)
+   * @param {string} serviceRequestId - Service Request ID
+   * @param {string} estimateId - Estimate ID
+   * @param {string} action - "ACCEPT" or "REJECT"
+   * @param {string} token - Auth token
+   * @returns {Promise} - API response
+   */
+  respondToEstimate: async (serviceRequestId, estimateId, action, feedback, token) => {
+    try {
+      const requestBody = {
+        action, // 'ACCEPT' or 'REJECT'
+      };
+      
+      // Include feedback if provided
+      if (feedback && feedback.trim() !== '') {
+        requestBody.feedback = feedback;
+      }
+      
+      const response = await fetch(`${API_URL}/estimates/customer/${serviceRequestId}/response`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to respond to estimate');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error responding to estimate:', error);
+      throw error;
+    }
+  },
 };
 
 export default customerServiceRequestService;

@@ -121,6 +121,14 @@ const styles = {
     backgroundColor: '#dc3545',
     color: '#fff',
   },
+  successButton: {
+    backgroundColor: '#28a745',
+    color: '#fff',
+  },
+  dangerButton: {
+    backgroundColor: '#dc3545',
+    color: '#fff',
+  },
   disabledButton: {
     backgroundColor: '#e9ecef',
     color: '#6c757d',
@@ -149,6 +157,7 @@ const ServiceRequestCard = ({
   onEdit, 
   onDelete, 
   onViewDetails,
+  onRespondToEstimate,
   showActions = true 
 }) => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -170,6 +179,12 @@ const ServiceRequestCard = ({
   const handleDelete = () => {
     if (onDelete && window.confirm('Are you sure you want to delete this service request? This action cannot be undone.')) {
       onDelete(serviceRequest);
+    }
+  };
+  
+  const handleEstimateResponse = (response) => {
+    if (onRespondToEstimate) {
+      onRespondToEstimate(serviceRequest, response);
     }
   };
 
@@ -282,6 +297,19 @@ const ServiceRequestCard = ({
                   <span style={styles.value}>{serviceRequest.estimate.notes}</span>
                 </div>
               )}
+              
+              {status === 'ESTIMATED' && (
+                <div style={{
+                  backgroundColor: '#fff3cd',
+                  padding: '10px',
+                  borderRadius: '5px',
+                  marginTop: '10px',
+                  fontSize: '14px',
+                  color: '#856404'
+                }}>
+                  <strong>Action Required:</strong> Please review the estimate and accept or reject it.
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -295,6 +323,24 @@ const ServiceRequestCard = ({
             >
               View Details
             </button>
+            
+            {/* Estimate response actions */}
+            {status === 'ESTIMATED' && serviceRequest.estimate && onRespondToEstimate && (
+              <>
+                <button
+                  style={{...styles.button, ...styles.successButton}}
+                  onClick={() => handleEstimateResponse('ACCEPT')}
+                >
+                  Accept Estimate
+                </button>
+                <button
+                  style={{...styles.button, ...styles.dangerButton}}
+                  onClick={() => handleEstimateResponse('REJECT')}
+                >
+                  Reject Estimate
+                </button>
+              </>
+            )}
             
             {canEdit && onEdit && (
               <button
@@ -314,9 +360,15 @@ const ServiceRequestCard = ({
               </button>
             )}
             
-            {(!canEdit && !canDelete) && (status !== 'COMPLETED') && (
+            {(!canEdit && !canDelete) && (status !== 'COMPLETED') && (status !== 'ESTIMATED') && (
               <span style={{...styles.button, ...styles.disabledButton}}>
                 Cannot modify after technician acceptance
+              </span>
+            )}
+            
+            {(status === 'ESTIMATED') && !serviceRequest.estimate && (
+              <span style={{...styles.button, ...styles.disabledButton}}>
+                Awaiting technician's estimate
               </span>
             )}
           </div>

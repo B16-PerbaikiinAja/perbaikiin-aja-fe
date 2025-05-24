@@ -256,6 +256,35 @@ const CustomerServiceRequests = () => {
       showNotification('error', error.message || 'Failed to delete service request');
     }
   };
+  
+  const handleRespondToEstimate = async (request, response, feedback = '') => {
+    try {
+      setLoading(true);
+      const token = authService.getToken();
+      
+      if (!request.estimate || !request.estimate.id) {
+        throw new Error('No estimate found for this service request');
+      }
+      
+      await customerServiceRequestService.respondToEstimate(
+        request.id, 
+        request.estimate.id, 
+        response,
+        feedback,
+        token
+      );
+      
+      fetchServiceRequests(); // Refresh the list
+      showNotification(
+        'success', 
+        `Estimate ${response === 'ACCEPT' ? 'accepted' : 'rejected'} successfully!`
+      );
+    } catch (error) {
+      showNotification('error', error.message || 'Failed to respond to estimate');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getStats = () => {
     const stats = {
@@ -414,6 +443,7 @@ const CustomerServiceRequests = () => {
                   serviceRequest={request}
                   onEdit={handleEditRequest}
                   onDelete={handleDeleteRequest}
+                  onRespondToEstimate={handleRespondToEstimate}
                   showActions={true}
                 />
               ))
