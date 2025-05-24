@@ -18,6 +18,7 @@ import Dashboard from './components/Dashboard';
 // Import service requests features
 import { TechnicianServiceRequests, CustomerServiceRequests as Feature3CustomerServiceRequests } from './feature-3';
 import { CustomerServiceRequests } from './feature-2';
+import { PaymentMethodList } from './feature-6';
 
 const NotFound = () => <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif'}}>404 - Page Not Found</div>;
 
@@ -127,6 +128,13 @@ function App() {
           <Route path="/admin/register-technician" element={
             <AdminRoute>
               <RegisterTechnician />
+            </AdminRoute>
+          } />
+
+          {/* Admin routes - Feature 6 Implementation */}
+          <Route path="/admin/payment-methods" element={
+            <AdminRoute>
+              <PaymentMethodList />
             </AdminRoute>
           } />
           
