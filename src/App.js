@@ -136,12 +136,6 @@ function App() {
             </CustomerRoute>
           } />
           
-          {/* Customer routes - Feature 3 (Alternative view) */}
-          <Route path="/customer/requests-tracker" element={
-            <CustomerRoute>
-              <Feature3CustomerServiceRequests />
-            </CustomerRoute>
-          } />
           
           {/* Redirect from home to dashboard if logged in, otherwise to login */}
           <Route path="/" element={

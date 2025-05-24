@@ -299,6 +299,7 @@ const TechnicianServiceRequests = () => {
 
   return (
     <div style={styles.container}>
+      <DashboardNavbar />
       <div style={styles.header}>
         <h1 style={styles.title}>My Service Requests</h1>
         
