@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }) => {
       
       // ✅ FIX: Extract user data from response properly
       const userData = {
+        id: data.id,
         fullName: data.fullName,
         email: data.email,
         role: data.role
