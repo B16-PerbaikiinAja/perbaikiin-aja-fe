@@ -216,13 +216,13 @@ const Dashboard = () => {
               </p>
             </button>
             
-            {/* Earnings - Not implemented yet */}
+            {/* Wallet - Implemented */}
             <button 
-              style={{...styles.card, ...styles.disabledCard}}
-              onClick={() => handleCardClick(null)}
+              style={styles.card}
+              onClick={() => handleCardClick('/wallet')}
               onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.disabledCardHover.transform;
-                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
+                e.currentTarget.style.transform = styles.cardHover.transform;
+                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'none';
@@ -230,9 +230,9 @@ const Dashboard = () => {
               }}
             >
               <div style={styles.cardIcon}>💰</div>
-              <h3 style={styles.cardTitle}>Earnings</h3>
+              <h3 style={styles.cardTitle}>My Wallet</h3>
               <p style={styles.cardDescription}>
-                Track your completed jobs and total earnings. (Coming Soon)
+                Manage your wallet, deposit funds, withdraw earnings, and view transaction history.
               </p>
             </button>
           </div>
@@ -287,6 +287,26 @@ const Dashboard = () => {
               <h3 style={styles.cardTitle}>Track Orders</h3>
               <p style={styles.cardDescription}>
                 View and track the status of your repair orders and service history.
+              </p>
+            </button>
+            
+            {/* Wallet - New Feature 4 */}
+            <button 
+              style={styles.card}
+              onClick={() => handleCardClick('/wallet')}
+              onMouseOver={(e) => {
+                e.currentTarget.style.transform = styles.cardHover.transform;
+                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.transform = 'none';
+                e.currentTarget.style.boxShadow = styles.card.boxShadow;
+              }}
+            >
+              <div style={styles.cardIcon}>💳</div>
+              <h3 style={styles.cardTitle}>My Wallet</h3>
+              <p style={styles.cardDescription}>
+                Manage your wallet, make deposits, and track your transaction history.
               </p>
             </button>
             

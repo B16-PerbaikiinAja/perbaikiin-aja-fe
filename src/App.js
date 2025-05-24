@@ -15,6 +15,7 @@ import Dashboard from './components/Dashboard';
 // Import service requests features
 import { TechnicianServiceRequests, CustomerServiceRequests as Feature3CustomerServiceRequests } from './feature-3';
 import { CustomerServiceRequests } from './feature-2';
+import { Wallet } from './feature-4';
 
 const NotFound = () => <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif'}}>404 - Page Not Found</div>;
 
@@ -136,6 +137,12 @@ function App() {
             </CustomerRoute>
           } />
           
+          {/* Wallet routes - Available for both customers and technicians */}
+          <Route path="/wallet" element={
+            <ProtectedRoute>
+              <Wallet />
+            </ProtectedRoute>
+          } />
           
           {/* Redirect from home to dashboard if logged in, otherwise to login */}
           <Route path="/" element={
