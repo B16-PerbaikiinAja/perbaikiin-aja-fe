@@ -4,7 +4,7 @@ import '../../App.css';
 // Assuming authService is in a path like this, adjust if necessary
 import authService from '../../auth/services/authService'; // Added import
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 // REMOVED: MOCK_AUTH_TOKEN and MOCK_CURRENT_USER_ID
 
