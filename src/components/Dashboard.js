@@ -163,9 +163,9 @@ const Dashboard = () => {
             />
             <ActionCard
               title="View Reports"
-              description="Access service reports and track performance metrics. (Coming Soon)"
+              description="Access service reports and track performance metrics. "
               icon="📊"
-              isDisabled={true}
+              path="/admin/reports"
             />
             <ActionCard
               title="Manage Coupons"

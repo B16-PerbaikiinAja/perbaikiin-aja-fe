@@ -24,6 +24,7 @@ import { PaymentMethodList } from './feature-6';
 
 // Import coupon management feature
 import { AdminCouponManagement } from './feature-5';
+import ViewReports from "./feature-3/components/ViewReports";
 
 const NotFound = () => (
   <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif' }}>
@@ -96,6 +97,13 @@ function App() {
           <Route path="/admin/register-technician" element={
             <AdminRoute>
               <RegisterTechnician />
+            </AdminRoute>
+          } />
+
+          {/* Admin routes - View Reports implementation */}
+          <Route path="/admin/reports" element={
+            <AdminRoute>
+              <ViewReports />
             </AdminRoute>
           } />
 
