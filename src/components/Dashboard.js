@@ -102,13 +102,13 @@ const Dashboard = () => {
       alert('This feature is coming soon!');
     }
   };
-  
+
   // Card component to reduce repetition
   const ActionCard = ({ title, description, icon, path, isDisabled = false }) => {
-    const currentStyle = isDisabled 
-      ? {...styles.card, ...styles.disabledCard} 
+    const currentStyle = isDisabled
+      ? {...styles.card, ...styles.disabledCard}
       : styles.card;
-    
+
     const hoverStyle = isDisabled
       ? styles.disabledCardHover
       : styles.cardHover;
@@ -147,31 +147,31 @@ const Dashboard = () => {
               Welcome, {user?.name || 'Admin'}! Manage technicians, view reports, and oversee the platform.
             </p>
           </div>
-          
+
           <div style={styles.cardsContainer}>
-            <ActionCard 
+            <ActionCard
               title="Manage Technicians"
               description="Register and manage technician accounts for your service team."
               icon="👨‍🔧"
               path="/admin/register-technician"
             />
-            <ActionCard 
+            <ActionCard
               title="View All Reviews"
               description="Oversee and manage all user reviews on the platform."
               icon="⭐" // Changed icon
               path="/reviews" // Link to ReviewList
             />
-            <ActionCard 
+            <ActionCard
               title="View Reports"
               description="Access service reports and track performance metrics. (Coming Soon)"
               icon="📊"
               isDisabled={true}
             />
-            <ActionCard 
+            <ActionCard
               title="Manage Coupons"
-              description="Create and manage discount coupons for your customers. (Coming Soon)"
+              description="Create and manage discount coupons for your customers. "
               icon="🎟️"
-              isDisabled={true}
+              path="/admin/coupons"
             />
           </div>
         </div>
@@ -185,27 +185,27 @@ const Dashboard = () => {
               Welcome back, {user?.name || 'Technician'}! Manage your service requests and track your performance.
             </p>
           </div>
-          
+
           <div style={styles.cardsContainer}>
-            <ActionCard 
+            <ActionCard
               title="Service Requests"
               description="View and manage incoming service requests from customers."
               icon="🔧"
               path="/technician/service-requests"
             />
-            <ActionCard 
+            <ActionCard
               title="Create Reports"
               description="Submit reports for completed service requests (via Service Requests page)."
               icon="📝"
               path="/technician/service-requests" // Technicians create reports from the service request details
             />
-            <ActionCard 
+            <ActionCard
               title="View Reviews"
               description="See reviews submitted by customers."
               icon="💬" // Changed icon
               path="/reviews" // Link to ReviewList
             />
-            <ActionCard 
+            <ActionCard
               title="Earnings"
               description="Track your completed jobs and total earnings. (Coming Soon)"
               icon="💰"
@@ -223,27 +223,27 @@ const Dashboard = () => {
               Welcome to PerbaikiinAja, {user?.name || 'Customer'}! Request services and manage your repairs.
             </p>
           </div>
-          
+
           <div style={styles.cardsContainer}>
-            <ActionCard 
+            <ActionCard
               title="Request & Manage Repairs"
               description="Submit new repair requests and manage your existing service orders."
               icon="📱"
               path="/customer/service-requests" // Links to Feature 2 (CustomerServiceRequests)
             />
-            <ActionCard 
+            <ActionCard
               title="Track Order Status"
               description="View and track the status of your repair orders and service history."
               icon="🔍"
               path="/customer/service-requests" // Can also link to Feature 2 for unified experience
             />
-             <ActionCard 
+             <ActionCard
               title="Service Activity Tracker"
               description="View detailed service history and respond to estimates from technicians."
               icon="📋"
               path="/customer/requests-tracker" // Links to Feature 3
             />
-            <ActionCard 
+            <ActionCard
               title="View & Write Reviews" // Updated title
               description="Read reviews and share your feedback for completed services." // Updated description
               icon="⭐"
