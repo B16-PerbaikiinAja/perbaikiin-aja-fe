@@ -42,7 +42,7 @@ const walletService = {
    */
   deposit: async (amount, description = 'Deposit', token) => {
     try {
-      const response = await fetch(`${API_URL}/api/wallets/deposit`, {
+      const response = await fetch(`${API_URL}/api/wallets/me/deposit`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
