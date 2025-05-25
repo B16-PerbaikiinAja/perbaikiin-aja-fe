@@ -191,6 +191,7 @@ const ServiceRequestCard = ({
   const status = serviceRequest.stateType || serviceRequest.status;
   const canEdit = isServiceRequestEditable(status);
   const canDelete = isServiceRequestDeletable(status);
+  const costDiscountMultiplier = (1- serviceRequest.coupon?.discountValue) ?? 1;
 
   return (
     <>
@@ -287,7 +288,7 @@ const ServiceRequestCard = ({
                 <span style={styles.label}>Original Cost:</span>
                 <span style={styles.value}>{formatCurrency(serviceRequest.estimate.originalCost || serviceRequest.estimate.cost)}</span>
               </div>
-              
+
               {/* Show discount if coupon is applied */}
               {serviceRequest.coupon && serviceRequest.estimate.discountAmount && (
                 <div style={styles.row}>
@@ -297,7 +298,7 @@ const ServiceRequestCard = ({
                   </span>
                 </div>
               )}
-              
+
               {/* Show final cost */}
               <div style={styles.row}>
                 <span style={{...styles.label, fontWeight: '600', fontSize: '16px'}}>Final Cost:</span>

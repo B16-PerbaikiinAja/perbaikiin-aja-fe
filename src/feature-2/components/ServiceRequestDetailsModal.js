@@ -215,6 +215,7 @@ const styles = {
 
 const ServiceRequestDetailsModal = ({ serviceRequest, onClose }) => {
   const status = serviceRequest.stateType || serviceRequest.status;
+  const costDiscountMultiplier = (1- serviceRequest.coupon?.discountValue) ?? 1;
 
   const getTimelineEvents = () => {
     const events = [];
@@ -231,7 +232,7 @@ const ServiceRequestDetailsModal = ({ serviceRequest, onClose }) => {
       events.push({
         title: 'Estimate Provided',
         date: serviceRequest.estimate.createdDate,
-        description: `Estimate of ${formatCurrency(serviceRequest.estimate.cost)} provided`
+        description: `Estimate of ${formatCurrency(serviceRequest.estimate.cost  )} provided`
       });
     }
     
@@ -395,7 +396,7 @@ const ServiceRequestDetailsModal = ({ serviceRequest, onClose }) => {
               <div style={styles.estimateHeader}>
                 <span style={styles.estimateTitle}>Repair Estimate</span>
                 <span style={styles.estimateCost}>
-                  {formatCurrency(serviceRequest.estimate.cost)}
+                  {formatCurrency(serviceRequest.estimate.cost  )}
                 </span>
               </div>
               <div style={styles.detailGrid}>
