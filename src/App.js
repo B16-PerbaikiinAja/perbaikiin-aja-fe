@@ -9,72 +9,53 @@ import RegisterCustomer from './auth/components/RegisterCustomer';
 import RegisterTechnician from './auth/components/RegisterTechnician';
 import Logout from './auth/components/Logout';
 
-// Import components
+// Review components
+import ReviewList from './feature-4/components/ReviewList';
+import CreateReview from './feature-4/components/CreateReview';
+import EditReview from './feature-4/components/EditReview';
+
+// General components
 import Dashboard from './components/Dashboard';
 
-// Import service requests features
+// Service requests features
 import { TechnicianServiceRequests, CustomerServiceRequests as Feature3CustomerServiceRequests } from './feature-3';
 import { CustomerServiceRequests } from './feature-2';
 
-const NotFound = () => <div style={{textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif'}}>404 - Page Not Found</div>;
+const NotFound = () => (
+  <div style={{ textAlign: 'center', marginTop: '50px', fontFamily: 'Poppins, sans-serif' }}>
+    404 - Page Not Found
+  </div>
+);
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
   const { isLoggedIn, isLoading } = useAuth();
-  
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  
-  if (!isLoggedIn) {
-    return <Navigate to="/login" />;
-  }
-  
+  if (isLoading) return <div>Loading...</div>;
+  if (!isLoggedIn) return <Navigate to="/login" />;
   return children;
 };
 
 // Admin route component
 const AdminRoute = ({ children }) => {
   const { isAdmin, isLoading } = useAuth();
-  
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  
-  if (!isAdmin) {
-    return <Navigate to="/dashboard" />;
-  }
-  
+  if (isLoading) return <div>Loading...</div>;
+  if (!isAdmin) return <Navigate to="/dashboard" />;
   return children;
 };
 
 // Technician route component
 const TechnicianRoute = ({ children }) => {
   const { isTechnician, isLoading } = useAuth();
-  
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  
-  if (!isTechnician) {
-    return <Navigate to="/dashboard" />;
-  }
-  
+  if (isLoading) return <div>Loading...</div>;
+  if (!isTechnician) return <Navigate to="/dashboard" />;
   return children;
 };
 
 // Customer route component
 const CustomerRoute = ({ children }) => {
   const { isCustomer, isLoading } = useAuth();
-  
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  
-  if (!isCustomer) {
-    return <Navigate to="/dashboard" />;
-  }
-  
+  if (isLoading) return <div>Loading...</div>;
+  if (!isCustomer) return <Navigate to="/dashboard" />;
   return children;
 };
 
@@ -83,16 +64,8 @@ const AppStyles = () => (
   <style>
     {`
       @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-      
-      * {
-        box-sizing: border-box;
-      }
-      
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif;
-      }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
     `}
   </style>
 );
@@ -129,7 +102,7 @@ function App() {
             </TechnicianRoute>
           } />
           
-          {/* Customer routes - Feature 2 Implementation */}
+          {/* Customer routes - Feature 2 */}
           <Route path="/customer/service-requests" element={
             <CustomerRoute>
               <CustomerServiceRequests />
@@ -137,14 +110,31 @@ function App() {
           } />
           
           
-          {/* Redirect from home to dashboard if logged in, otherwise to login */}
+          {/* Feature 4: Review Routes */}
+          <Route path="/reviews" element={
+            <ProtectedRoute>
+              <ReviewList />
+            </ProtectedRoute>
+          } />
+          <Route path="/reviews/create" element={
+            <ProtectedRoute>
+              <CreateReview />
+            </ProtectedRoute>
+          } />
+          <Route path="/reviews/edit/:id" element={
+            <ProtectedRoute>
+              <EditReview />
+            </ProtectedRoute>
+          } />
+          
+          {/* Redirect from home */}
           <Route path="/" element={
             <ProtectedRoute>
               <Navigate to="/dashboard" replace />
             </ProtectedRoute>
           } />
           
-          {/* 404 route */}
+          {/* 404 fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
