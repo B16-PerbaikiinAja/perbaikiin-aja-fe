@@ -118,26 +118,46 @@ const DashboardNavbar = () => {
 
         {/* Technician specific navigation */}
         {isTechnician && (
-          <Link
-            to="/technician/service-requests"
-            style={styles.navItem}
-            onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
-            onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
-          >
-            My Requests
-          </Link>
+          <>
+            <Link
+              to="/technician/service-requests"
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+            >
+              My Requests
+            </Link>
+            <Link 
+              to="/wallet" 
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+            >
+              My Wallet
+            </Link>
+          </>
         )}
 
         {/* Customer specific navigation */}
         {isCustomer && (
-          <Link
-            to="/customer/service-requests"
-            style={styles.navItem}
-            onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
-            onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
-          >
-            My Orders
-          </Link>
+          <>
+            <Link
+              to="/customer/service-requests"
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+            >
+              My Orders
+            </Link>
+            <Link 
+              to="/wallet" 
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+            >
+              My Wallet
+            </Link>
+          </>
         )}
 
         {/* Admin specific navigation */}

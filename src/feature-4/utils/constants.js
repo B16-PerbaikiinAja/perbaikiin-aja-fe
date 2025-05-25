@@ -1,0 +1,15 @@
+// src/feature-4/utils/constants.js
+
+export const TRANSACTION_TYPE = {
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAWAL: 'WITHDRAWAL',
+  PAYMENT: 'PAYMENT',
+  REFUND: 'REFUND',
+  SERVICE_PAYMENT: 'SERVICE_PAYMENT',
+};
+
+export const TRANSACTION_STATUS = {
+  COMPLETED: 'COMPLETED',
+  PENDING: 'PENDING',
+  FAILED: 'FAILED',
+};
