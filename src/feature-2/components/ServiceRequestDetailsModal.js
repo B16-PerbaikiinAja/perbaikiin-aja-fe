@@ -428,7 +428,14 @@ const ServiceRequestDetailsModal = ({ serviceRequest, onClose }) => {
           <div style={styles.section}>
             <h3 style={styles.sectionTitle}>Completion Report</h3>
             <div style={styles.reportCard}>
-              <div style={styles.reportTitle}>Service Report</div>
+              <div style={styles.estimateHeader}>
+                <span style={styles.reportTitle}>Service Report</span>
+                <span style={styles.estimateCost}>
+                  {serviceRequest.coupon === null || status !=='COMPLETED'
+                      ? formatCurrency(serviceRequest.estimate.cost)
+                      : (formatCurrency(serviceRequest.estimate.cost * costDiscountMultiplier))}
+                </span>
+              </div>
               <div style={styles.detailGrid}>
                 <div style={styles.detailItem}>
                   <span style={styles.detailLabel}>Completion Date</span>
@@ -444,13 +451,13 @@ const ServiceRequestDetailsModal = ({ serviceRequest, onClose }) => {
                 </div>
                 <div style={{...styles.detailItem, ...styles.fullWidth}}>
                   <span style={styles.detailLabel}>Repair Details</span>
-                  <div style={styles.reportContent}>
+                  <div style={styles.detailValue}>
                     {serviceRequest.report.repairDetails}
                   </div>
                 </div>
                 <div style={{...styles.detailItem, ...styles.fullWidth}}>
                   <span style={styles.detailLabel}>Resolution Summary</span>
-                  <div style={styles.reportContent}>
+                  <div style={styles.detailValue}>
                     {serviceRequest.report.repairSummary}
                   </div>
                 </div>

@@ -285,8 +285,8 @@ const ServiceRequestCard = ({
             <div style={styles.estimateSection}>
               <div style={styles.estimateTitle}>Estimate Details</div>
               <div style={styles.row}>
-                <span style={styles.label}>Original Cost:</span>
-                <span style={styles.value}>{formatCurrency(serviceRequest.estimate.originalCost || serviceRequest.estimate.cost)}</span>
+                <span style={styles.label}>{status !== 'COMPLETED' ? 'Estimated Cost:' : 'Final Cost'}</span>
+                <span style={styles.value}>{serviceRequest.coupon === null || status !=='COMPLETED' ? formatCurrency(serviceRequest.estimate.cost) : (formatCurrency(serviceRequest.estimate.cost * costDiscountMultiplier))}</span>
               </div>
 
               {/* Show discount if coupon is applied */}
@@ -298,14 +298,6 @@ const ServiceRequestCard = ({
                   </span>
                 </div>
               )}
-
-              {/* Show final cost */}
-              <div style={styles.row}>
-                <span style={{...styles.label, fontWeight: '600', fontSize: '16px'}}>Final Cost:</span>
-                <span style={{...styles.value, fontWeight: '700', fontSize: '16px', color: '#007bff'}}>
-                  {formatCurrency(serviceRequest.estimate.finalCost || serviceRequest.estimate.cost)}
-                </span>
-              </div>
               <div style={styles.row}>
                 <span style={styles.label}>Completion Date:</span>
                 <span style={styles.value}>{formatDate(serviceRequest.estimate.completionDate)}</span>
