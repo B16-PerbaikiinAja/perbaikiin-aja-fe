@@ -160,18 +160,20 @@ const CreateReview = () => {
                 Select Technician <span className="text-red-500">*</span>
               </label>
               <select
-                id="technician"
-                value={selectedTechnicianId}
-                onChange={(e) => setSelectedTechnicianId(e.target.value)}
-                className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
-                required
-                disabled={isLoading || technicians.length === 0}
-              >
-                <option value="" disabled>-- Choose a Technician --</option>
-                {technicians.map(tech => (
-                  <option key={tech.id} value={tech.id}>{tech.fullName}</option>
-                ))}
-              </select>
+              id="technician"
+              value={selectedTechnicianId}
+              onChange={(e) => setSelectedTechnicianId(e.target.value)}
+              className="w-full p-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
+              required
+              disabled={isLoading || technicians.length === 0}
+            >
+              <option value="" disabled>-- Choose a Completed Service --</option>
+              {technicians.map(service => (
+                <option key={`${service.id}-${service.reportId}`} value={service.id}>
+                  {service.displayName}
+                </option>
+              ))}
+            </select>
                {technicians.length === 0 && !isLoading && !fetchTechniciansError && <p className="text-xs text-gray-500 mt-1">No technicians available to review or error fetching them.</p>}
             </div>
 
