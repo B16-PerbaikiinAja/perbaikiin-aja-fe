@@ -134,14 +134,7 @@ function App() {
               <CustomerServiceRequests />
             </CustomerRoute>
           } />
-
-          {/* Customer routes - Feature 3 (alternative view) */}
-          <Route path="/customer/requests-tracker" element={
-            <CustomerRoute>
-              <Feature3CustomerServiceRequests />
-            </CustomerRoute>
-          } />
-
+          
           {/* Feature 4: Review Routes */}
           <Route path="/reviews" element={
             <ProtectedRoute>

@@ -8,6 +8,7 @@ import serviceRequestService from '../services/serviceRequestService';
 import estimateService from '../services/estimateService';
 import reportService from '../services/reportService';
 import authService from '../../auth/services/authService';
+import DashboardNavbar from '../../components/DashboardNavbar';
 
 const styles = {
   container: {
@@ -299,6 +300,7 @@ const TechnicianServiceRequests = () => {
 
   return (
     <div style={styles.container}>
+      <DashboardNavbar />
       <div style={styles.header}>
         <h1 style={styles.title}>My Service Requests</h1>
         

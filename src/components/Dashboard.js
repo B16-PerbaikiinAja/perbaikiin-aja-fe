@@ -232,18 +232,6 @@ const Dashboard = () => {
               path="/customer/service-requests" // Links to Feature 2 (CustomerServiceRequests)
             />
             <ActionCard
-              title="Track Order Status"
-              description="View and track the status of your repair orders and service history."
-              icon="🔍"
-              path="/customer/service-requests" // Can also link to Feature 2 for unified experience
-            />
-             <ActionCard
-              title="Service Activity Tracker"
-              description="View detailed service history and respond to estimates from technicians."
-              icon="📋"
-              path="/customer/requests-tracker" // Links to Feature 3
-            />
-            <ActionCard
               title="View & Write Reviews" // Updated title
               description="Read reviews and share your feedback for completed services." // Updated description
               icon="⭐"
