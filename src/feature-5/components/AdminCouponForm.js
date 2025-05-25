@@ -1,7 +1,8 @@
-// src/feature-coupons/components/AdminCouponForm.js
+// src/feature-5/components/AdminCouponForm.js
 import React, { useState, useEffect } from 'react';
-import { couponService } from '../services/couponService';
+import couponService from '../services/couponService';
 import { useAuth } from '../../auth/context/AuthContext';
+import authService from "../../auth/services/authService";
 
 const styles = {
     overlay: {
@@ -132,8 +133,6 @@ const styles = {
 };
 
 const AdminCouponForm = ({ coupon, onClose, onSaveSuccess }) => {
-    const { token } = useAuth(); // <--- Get token from AuthContext
-
     const [formData, setFormData] = useState({
         discountValue: '',
         maxUsage: '',
@@ -188,6 +187,7 @@ const AdminCouponForm = ({ coupon, onClose, onSaveSuccess }) => {
     };
 
     const handleSubmit = async (e) => {
+        const token  = authService.getToken();
         e.preventDefault();
         setSubmitError('');
 

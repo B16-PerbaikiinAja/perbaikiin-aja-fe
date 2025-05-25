@@ -1,18 +1,19 @@
-// src/feature-coupons/components/AdminCouponManagement.js
+// src/feature-5/components/AdminCouponManagement.js
 import React, { useState, useEffect } from 'react';
-import { couponService } from '../services/couponService';
+import couponService  from '../services/couponService';
 import { useAuth } from '../../auth/context/AuthContext';
-import { AdminCouponForm } from './AdminCouponForm'; // Import the form component
+import AdminCouponForm from './AdminCouponForm';
+import authService from "../../auth/services/authService";
+import DashboardNavbar from "../../components/DashboardNavbar";
 
 const styles = {
     container: {
         fontFamily: 'Poppins, sans-serif',
+    },
+    content: {
         padding: '20px',
         maxWidth: '1200px',
-        margin: '20px auto',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+        margin: '0 auto',
     },
     header: {
         display: 'flex',
@@ -44,11 +45,11 @@ const styles = {
         marginTop: '20px',
         backgroundColor: '#fff',
         borderRadius: '8px',
-        overflow: 'hidden', // Ensures rounded corners are applied
+        overflow: 'hidden',
     },
     th: {
-        backgroundColor: '#e9ecef',
-        color: '#495057',
+        backgroundColor: '#007bff',
+        color: '#ffffff',
         padding: '15px',
         textAlign: 'left',
         fontSize: '14px',
@@ -120,7 +121,7 @@ const styles = {
 };
 
 const AdminCouponManagement = () => {
-    const { token } = useAuth();
+    const { isAdmin } = useAuth();
     const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -128,7 +129,7 @@ const AdminCouponManagement = () => {
     const [selectedCoupon, setSelectedCoupon] = useState(null); // For editing
 
     const fetchCoupons = async () => {
-        if (!token) {
+        if (!isAdmin) {
             setError('Authentication token is missing. Please log in.');
             setLoading(false);
             return;
@@ -136,6 +137,7 @@ const AdminCouponManagement = () => {
         setLoading(true);
         setError(null);
         try {
+            const token = authService.getToken();
             const data = await couponService.getAllCoupons(token);
             setCoupons(data);
         } catch (err) {
@@ -148,7 +150,7 @@ const AdminCouponManagement = () => {
 
     useEffect(() => {
         fetchCoupons();
-    }, [token]); // Re-fetch if token changes
+    }, [isAdmin]);
 
     const handleCreateClick = () => {
         setSelectedCoupon(null); // Clear any selected coupon for new creation
@@ -165,6 +167,7 @@ const AdminCouponManagement = () => {
             setLoading(true);
             setError(null);
             try {
+                const token = authService.getToken();
                 await couponService.deleteCoupon(couponCode, token);
                 await fetchCoupons(); // Refresh the list
             } catch (err) {
@@ -196,64 +199,67 @@ const AdminCouponManagement = () => {
 
     return (
         <div style={styles.container}>
-            <div style={styles.header}>
-                <h2 style={styles.h2}>Coupon Management</h2>
-                <button style={styles.addButton} onClick={handleCreateClick}>
-                    Create New Coupon
-                </button>
-            </div>
+            <DashboardNavbar />
+            <div style={styles.content}>
+                <div style={styles.header}>
+                    <h2 style={styles.h2}>Coupon Management</h2>
+                    <button style={styles.addButton} onClick={handleCreateClick}>
+                        Create New Coupon
+                    </button>
+                </div>
 
-            {coupons.length === 0 ? (
-                <p style={styles.noCoupons}>No coupons found. Click "Create New Coupon" to add one.</p>
-            ) : (
-                <table style={styles.table}>
-                    <thead>
-                    <tr>
-                        <th style={styles.th}>Code</th>
-                        <th style={styles.th}>Discount Value</th>
-                        <th style={styles.th}>Max Usage</th>
-                        <th style={styles.th}>Used Count</th>
-                        <th style={styles.th}>Expiry Date</th>
-                        <th style={styles.th}>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {coupons.map((coupon) => (
-                        <tr key={coupon.code} style={styles.trHover}>
-                            <td style={styles.td}>{coupon.code}</td>
-                            <td style={styles.td}>{(coupon.discountValue * 100).toFixed(0)}%</td> {/* Assuming discountValue is a fraction, display as percentage */}
-                            <td style={styles.td}>{coupon.maxUsage}</td>
-                            <td style={styles.td}>{coupon.usageCount}</td>
-                            <td style={styles.td}>{new Date(coupon.expiryDate).toLocaleDateString()}</td>
-                            <td style={styles.td}>
-                                <div style={styles.actions}>
-                                    <button
-                                        style={{ ...styles.actionButton, ...styles.editButton }}
-                                        onClick={() => handleEditClick(coupon)}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        style={{ ...styles.actionButton, ...styles.deleteButton }}
-                                        onClick={() => handleDeleteClick(coupon.code)}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
+                {coupons.length === 0 ? (
+                    <p style={styles.noCoupons}>No coupons found. Click "Create New Coupon" to add one.</p>
+                ) : (
+                    <table style={styles.table}>
+                        <thead>
+                        <tr>
+                            <th style={styles.th}>Code</th>
+                            <th style={styles.th}>Discount Value</th>
+                            <th style={styles.th}>Max Usage</th>
+                            <th style={styles.th}>Used Count</th>
+                            <th style={styles.th}>Expiry Date</th>
+                            <th style={styles.th}>Actions</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
-            )}
+                        </thead>
+                        <tbody>
+                        {coupons.map((coupon) => (
+                            <tr key={coupon.code} style={styles.trHover}>
+                                <td style={styles.td}>{coupon.code}</td>
+                                <td style={styles.td}>{(coupon.discountValue * 100).toFixed(0)}%</td> {/* Assuming discountValue is a fraction, display as percentage */}
+                                <td style={styles.td}>{coupon.maxUsage}</td>
+                                <td style={styles.td}>{coupon.usageCount}</td>
+                                <td style={styles.td}>{new Date(coupon.expiryDate).toLocaleDateString()}</td>
+                                <td style={styles.td}>
+                                    <div style={styles.actions}>
+                                        <button
+                                            style={{ ...styles.actionButton, ...styles.editButton }}
+                                            onClick={() => handleEditClick(coupon)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            style={{ ...styles.actionButton, ...styles.deleteButton }}
+                                            onClick={() => handleDeleteClick(coupon.code)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                )}
 
-            {showFormModal && (
-                <AdminCouponForm
-                    coupon={selectedCoupon}
-                    onClose={handleFormClose}
-                    onSaveSuccess={handleSaveSuccess}
-                />
-            )}
+                {showFormModal && (
+                    <AdminCouponForm
+                        coupon={selectedCoupon}
+                        onClose={handleFormClose}
+                        onSaveSuccess={handleSaveSuccess}
+                    />
+                )}
+            </div>
         </div>
     );
 };

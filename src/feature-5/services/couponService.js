@@ -1,4 +1,4 @@
-// src/feature-coupons/services/couponService.js
+// src/feature-5/services/couponService.js
 
 const API_URL = process.env.REACT_APP_API_URL;
 

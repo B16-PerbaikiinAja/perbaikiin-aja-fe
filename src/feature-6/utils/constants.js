@@ -1,0 +1,4 @@
+export const PAYMENT_STATUS = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+};
