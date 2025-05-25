@@ -101,8 +101,15 @@ const ReviewList = () => {
   const [error, setError] = useState(null);
   const [showAddReviewModal, setShowAddReviewModal] = useState(false);
   const [editingReview, setEditingReview] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   // REMOVED: const [authToken] = useState(MOCK_AUTH_TOKEN);
+
+    useEffect(() => {
+    // Get the user role when component mounts
+    const user = authService.getCurrentUser();
+    setUserRole(user?.role || null);
+  }, []);
 
   const fetchReviews = useCallback(async () => {
     setIsLoading(true);
@@ -225,9 +232,11 @@ const ReviewList = () => {
     <div className="review-list-container">
       <div className="review-list-header">
         <h1>Customer Reviews</h1>
-        <button onClick={handleOpenAddReviewModal} className="add-review-button">
-          <PlusCircle size={20} className="icon" /> Add New Review
-        </button>
+        {userRole && userRole !== 'TECHNICIAN' && (
+          <button onClick={handleOpenAddReviewModal} className="add-review-button">
+            <PlusCircle size={20} className="icon" /> Add New Review
+          </button>
+        )}
       </div>
 
       {error && (

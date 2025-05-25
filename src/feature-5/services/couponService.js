@@ -52,6 +52,7 @@ const couponService = {
 
             if (!response.ok) {
                 const errorData = await response.json();
+                console.log('Error fetching all coupons:', errorData);
                 throw new Error(errorData.message || 'Failed to fetch coupons');
             }
 
