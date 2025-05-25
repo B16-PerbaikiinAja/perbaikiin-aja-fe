@@ -14,14 +14,15 @@ const styles = {
     margin: '0 auto',
   },
   welcomeSection: {
-    background: 'linear-gradient(135deg, #4285f4, #34a853)',
+    background: 'linear-gradient(135deg, #4A90E2, #50E3C2)', // Light mode friendly gradient
     padding: '40px',
-    borderRadius: '8px',
+    borderRadius: '12px',
     color: 'white',
     marginBottom: '30px',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
   },
   welcomeTitle: {
-    fontSize: '28px',
+    fontSize: '30px',
     fontWeight: '600',
     marginBottom: '10px',
   },
@@ -31,50 +32,62 @@ const styles = {
   },
   cardsContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    gap: '20px',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', // Adjusted minmax for potentially smaller cards
+    gap: '25px',
     marginTop: '30px',
   },
   card: {
     backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
     padding: '25px',
-    transition: 'transform 0.3s, box-shadow 0.3s',
+    transition: 'transform 0.2s ease-out, box-shadow 0.2s ease-out',
     cursor: 'pointer',
-    border: 'none',
+    border: '1px solid #e0e0e0',
     textAlign: 'left',
     width: '100%',
     fontFamily: 'Poppins, sans-serif',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between', // Ensure content is spaced out
+    minHeight: '180px', // Give cards a consistent minimum height
   },
   cardHover: {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
+    transform: 'translateY(-5px) scale(1.02)',
+    boxShadow: '0 8px 20px rgba(0,0,0,0.12)',
   },
   cardIcon: {
-    fontSize: '36px',
+    fontSize: '32px', // Slightly smaller for a cleaner look
     marginBottom: '15px',
-    color: '#4285f4',
+    color: '#4A90E2', // Maintained blue for icons
+    width: '50px',
+    height: '50px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    backgroundColor: '#e9f3fe', // Light blue background for icon
   },
   cardTitle: {
     fontSize: '18px',
     fontWeight: '600',
-    marginBottom: '10px',
+    marginBottom: '8px',
     color: '#333',
   },
   cardDescription: {
     fontSize: '14px',
-    color: '#666',
+    color: '#555', // Slightly darker for better readability
+    lineHeight: '1.6',
+    flexGrow: 1, // Allow description to take available space
   },
-  // For non-implemented features
   disabledCard: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#f9f9f9', // Lighter disabled background
     cursor: 'not-allowed',
-    opacity: 0.6,
+    opacity: 0.7,
   },
   disabledCardHover: {
     transform: 'none',
-    boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
   },
 };
 
@@ -90,7 +103,40 @@ const Dashboard = () => {
     }
   };
 
-  // Different content based on user role
+  // Card component to reduce repetition
+  const ActionCard = ({ title, description, icon, path, isDisabled = false }) => {
+    const currentStyle = isDisabled
+      ? {...styles.card, ...styles.disabledCard}
+      : styles.card;
+
+    const hoverStyle = isDisabled
+      ? styles.disabledCardHover
+      : styles.cardHover;
+
+    return (
+      <button
+        style={currentStyle}
+        onClick={() => handleCardClick(isDisabled ? null : path)}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = hoverStyle.transform;
+          e.currentTarget.style.boxShadow = hoverStyle.boxShadow;
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = 'none';
+          e.currentTarget.style.boxShadow = styles.card.boxShadow;
+        }}
+        disabled={isDisabled}
+      >
+        <div>
+          <div style={styles.cardIcon}>{icon}</div>
+          <h3 style={styles.cardTitle}>{title}</h3>
+        </div>
+        <p style={styles.cardDescription}>{description}</p>
+      </button>
+    );
+  };
+
+
   const getRoleSpecificContent = () => {
     if (isAdmin) {
       return (
@@ -98,70 +144,35 @@ const Dashboard = () => {
           <div style={styles.welcomeSection}>
             <h1 style={styles.welcomeTitle}>Admin Dashboard</h1>
             <p style={styles.welcomeMessage}>
-              Welcome to the administrator dashboard. Here you can manage technicians, view reports, and more.
+              Welcome, {user?.name || 'Admin'}! Manage technicians, view reports, and oversee the platform.
             </p>
           </div>
-          
+
           <div style={styles.cardsContainer}>
-            {/* Manage Technicians - Implemented */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/admin/register-technician')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>👨‍🔧</div>
-              <h3 style={styles.cardTitle}>Manage Technicians</h3>
-              <p style={styles.cardDescription}>
-                Register and manage technician accounts for your service team.
-              </p>
-            </button>
-            
-            {/* View Reports - Not implemented yet */}
-            <button 
-              style={{...styles.card, ...styles.disabledCard}}
-              onClick={() => handleCardClick(null)}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.disabledCardHover.transform;
-                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>📊</div>
-              <h3 style={styles.cardTitle}>View Reports</h3>
-              <p style={styles.cardDescription}>
-                Access service reports and track performance metrics. (Coming Soon)
-              </p>
-            </button>
-            
-            {/* Manage Coupons - Not implemented yet */}
-            <button 
-              style={{...styles.card, ...styles.disabledCard}}
-              onClick={() => handleCardClick(null)}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.disabledCardHover.transform;
-                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>🎟️</div>
-              <h3 style={styles.cardTitle}>Manage Coupons</h3>
-              <p style={styles.cardDescription}>
-                Create and manage discount coupons for your customers. (Coming Soon)
-              </p>
-            </button>
+            <ActionCard
+              title="Manage Technicians"
+              description="Register and manage technician accounts for your service team."
+              icon="👨‍🔧"
+              path="/admin/register-technician"
+            />
+            <ActionCard
+              title="View All Reviews"
+              description="Oversee and manage all user reviews on the platform."
+              icon="⭐" // Changed icon
+              path="/reviews" // Link to ReviewList
+            />
+            <ActionCard
+              title="View Reports"
+              description="Access service reports and track performance metrics. (Coming Soon)"
+              icon="📊"
+              isDisabled={true}
+            />
+            <ActionCard
+              title="Manage Coupons"
+              description="Create and manage discount coupons for your customers. "
+              icon="🎟️"
+              path="/admin/coupons"
+            />
           </div>
         </div>
       );
@@ -171,187 +182,72 @@ const Dashboard = () => {
           <div style={styles.welcomeSection}>
             <h1 style={styles.welcomeTitle}>Technician Dashboard</h1>
             <p style={styles.welcomeMessage}>
-              Welcome to your technician dashboard. Manage your service requests and track your earnings.
+              Welcome back, {user?.name || 'Technician'}! Manage your service requests and track your performance.
             </p>
           </div>
-          
+
           <div style={styles.cardsContainer}>
-            {/* Service Requests - Implemented */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/technician/service-requests')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>🔧</div>
-              <h3 style={styles.cardTitle}>Service Requests</h3>
-              <p style={styles.cardDescription}>
-                View and manage incoming service requests from customers.
-              </p>
-            </button>
-            
-            {/* Create Reports - Accessible from Service Requests page */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/technician/service-requests')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>📝</div>
-              <h3 style={styles.cardTitle}>Create Reports</h3>
-              <p style={styles.cardDescription}>
-                Submit reports for completed service requests.
-              </p>
-            </button>
-            
-            {/* Wallet - Implemented */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/wallet')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>💰</div>
-              <h3 style={styles.cardTitle}>My Wallet</h3>
-              <p style={styles.cardDescription}>
-                Manage your wallet, deposit funds, withdraw earnings, and view transaction history.
-              </p>
-            </button>
+            <ActionCard
+              title="Service Requests"
+              description="View and manage incoming service requests from customers."
+              icon="🔧"
+              path="/technician/service-requests"
+            />
+            <ActionCard
+              title="Create Reports"
+              description="Submit reports for completed service requests (via Service Requests page)."
+              icon="📝"
+              path="/technician/service-requests" // Technicians create reports from the service request details
+            />
+            <ActionCard
+              title="View Reviews"
+              description="See reviews submitted by customers."
+              icon="💬" // Changed icon
+              path="/reviews" // Link to ReviewList
+            />
+            <ActionCard
+              title="Earnings"
+              description="Track your completed jobs and total earnings. (Coming Soon)"
+              icon="💰"
+              isDisabled={true}
+            />
           </div>
         </div>
       );
-    } else {
-      // Customer dashboard with Feature 2 implemented
+    } else if (isCustomer) { // Assuming if not admin or technician, they are customer
       return (
         <div>
           <div style={styles.welcomeSection}>
             <h1 style={styles.welcomeTitle}>Customer Dashboard</h1>
             <p style={styles.welcomeMessage}>
-              Welcome to PerbaikiinAja! Request services and track your repair orders.
+              Welcome to PerbaikiinAja, {user?.name || 'Customer'}! Request services and manage your repairs.
             </p>
           </div>
-          
-          <div style={styles.cardsContainer}>
-            {/* Request Repair - Feature 2 implemented */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/customer/service-requests')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>📱</div>
-              <h3 style={styles.cardTitle}>Request Repair</h3>
-              <p style={styles.cardDescription}>
-                Submit a new repair request for your device or item and manage existing requests.
-              </p>
-            </button>
-            
-            {/* Track Orders - Feature 2 implemented */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/customer/service-requests')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>🔍</div>
-              <h3 style={styles.cardTitle}>Track Orders</h3>
-              <p style={styles.cardDescription}>
-                View and track the status of your repair orders and service history.
-              </p>
-            </button>
-            
-            {/* Wallet - New Feature 4 */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/wallet')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>💳</div>
-              <h3 style={styles.cardTitle}>My Wallet</h3>
-              <p style={styles.cardDescription}>
-                Manage your wallet, make deposits, and track your transaction history.
-              </p>
-            </button>
-            
-            {/* Service History - Alternative view using Feature 3 */}
-            <button 
-              style={styles.card}
-              onClick={() => handleCardClick('/customer/requests-tracker')}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.cardHover.transform;
-                e.currentTarget.style.boxShadow = styles.cardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>📋</div>
-              <h3 style={styles.cardTitle}>Service History</h3>
-              <p style={styles.cardDescription}>
-                View detailed service history and respond to estimates from technicians.
-              </p>
-            </button>
 
-            {/* Reviews - Not implemented yet */}
-            <button 
-              style={{...styles.card, ...styles.disabledCard}}
-              onClick={() => handleCardClick(null)}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = styles.disabledCardHover.transform;
-                e.currentTarget.style.boxShadow = styles.disabledCardHover.boxShadow;
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = styles.card.boxShadow;
-              }}
-            >
-              <div style={styles.cardIcon}>⭐</div>
-              <h3 style={styles.cardTitle}>Reviews</h3>
-              <p style={styles.cardDescription}>
-                Leave reviews for technicians who have completed your repairs. (Coming Soon)
-              </p>
-            </button>
+          <div style={styles.cardsContainer}>
+            <ActionCard
+              title="Request & Manage Repairs"
+              description="Submit new repair requests and manage your existing service orders."
+              icon="📱"
+              path="/customer/service-requests" // Links to Feature 2 (CustomerServiceRequests)
+            />
+            <ActionCard
+              title="View & Write Reviews" // Updated title
+              description="Read reviews and share your feedback for completed services." // Updated description
+              icon="⭐"
+              path="/reviews" // Updated path
+            />
           </div>
         </div>
       );
+    } else {
+        // Fallback for users with no specific role or if role logic needs adjustment
+        return (
+             <div style={styles.welcomeSection}>
+                <h1 style={styles.welcomeTitle}>Welcome, {user?.name || 'User'}!</h1>
+                <p style={styles.welcomeMessage}>Your dashboard is being set up. Please check back later or contact support if you believe this is an error.</p>
+            </div>
+        );
     }
   };
 

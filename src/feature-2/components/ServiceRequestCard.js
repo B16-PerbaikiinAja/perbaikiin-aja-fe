@@ -284,8 +284,26 @@ const ServiceRequestCard = ({
             <div style={styles.estimateSection}>
               <div style={styles.estimateTitle}>Estimate Details</div>
               <div style={styles.row}>
-                <span style={styles.label}>Cost:</span>
-                <span style={styles.value}>{formatCurrency(serviceRequest.estimate.cost)}</span>
+                <span style={styles.label}>Original Cost:</span>
+                <span style={styles.value}>{formatCurrency(serviceRequest.estimate.originalCost || serviceRequest.estimate.cost)}</span>
+              </div>
+              
+              {/* Show discount if coupon is applied */}
+              {serviceRequest.coupon && serviceRequest.estimate.discountAmount && (
+                <div style={styles.row}>
+                  <span style={styles.label}>Discount ({Math.round(serviceRequest.coupon.discountValue * 100)}%):</span>
+                  <span style={{...styles.value, color: '#28a745', fontWeight: '600'}}>
+                    -{formatCurrency(serviceRequest.estimate.discountAmount)}
+                  </span>
+                </div>
+              )}
+              
+              {/* Show final cost */}
+              <div style={styles.row}>
+                <span style={{...styles.label, fontWeight: '600', fontSize: '16px'}}>Final Cost:</span>
+                <span style={{...styles.value, fontWeight: '700', fontSize: '16px', color: '#007bff'}}>
+                  {formatCurrency(serviceRequest.estimate.finalCost || serviceRequest.estimate.cost)}
+                </span>
               </div>
               <div style={styles.row}>
                 <span style={styles.label}>Completion Date:</span>

@@ -107,20 +107,20 @@ const DashboardNavbar = () => {
       </Link>
 
       <div style={styles.menuContainer}>
-        <Link 
-          to="/dashboard" 
+        <Link
+          to="/dashboard"
           style={styles.navItem}
           onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
           onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
         >
           Dashboard
         </Link>
-        
+
         {/* Technician specific navigation */}
         {isTechnician && (
           <>
-            <Link 
-              to="/technician/service-requests" 
+            <Link
+              to="/technician/service-requests"
               style={styles.navItem}
               onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
               onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
@@ -137,12 +137,12 @@ const DashboardNavbar = () => {
             </Link>
           </>
         )}
-        
+
         {/* Customer specific navigation */}
         {isCustomer && (
           <>
-            <Link 
-              to="/customer/service-requests" 
+            <Link
+              to="/customer/service-requests"
               style={styles.navItem}
               onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
               onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
@@ -159,29 +159,37 @@ const DashboardNavbar = () => {
             </Link>
           </>
         )}
-        
+
         {/* Admin specific navigation */}
         {isAdmin && (
           <>
-            <Link 
-              to="/admin/register-technician" 
+            <Link
+              to="/admin/register-technician"
               style={styles.navItem}
               onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
               onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
             >
               Register Technician
             </Link>
-            <Link 
-              to="/admin/reports" 
+            <Link
+              to="/admin/reports"
               style={styles.navItem}
               onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
               onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
             >
               Reports
             </Link>
+            <Link
+              to="/admin/coupons"
+              style={styles.navItem}
+              onMouseOver={(e) => e.currentTarget.style.color = styles.navItemHover.color}
+              onMouseOut={(e) => e.currentTarget.style.color = styles.navItem.color}
+           >
+              Coupons
+            </Link>
           </>
         )}
-        
+
         <div style={styles.userInfoContainer}>
           <div style={styles.userAvatar}>
             {getInitial()}
@@ -190,9 +198,9 @@ const DashboardNavbar = () => {
             <div style={styles.userName}>{user?.fullName || 'User'}</div>
             <div style={styles.userRole}>{getRoleDisplay()}</div>
           </div>
-          
-          <button 
-            onClick={handleLogout} 
+
+          <button
+            onClick={handleLogout}
             style={styles.logoutButton}
             onMouseOver={(e) => e.currentTarget.style.backgroundColor = styles.logoutButtonHover.backgroundColor}
             onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}

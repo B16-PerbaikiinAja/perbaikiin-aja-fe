@@ -307,23 +307,23 @@ const CreateServiceRequestForm = ({ onCancel, onSuccess }) => {
     }
   };
 
-  const handleValidateCoupon = async () => {
-    if (!formData.couponCode.trim()) {
-      setCouponValidation({ isValid: false, message: 'Please enter a coupon code', coupon: null });
-      return;
-    }
+const handleValidateCoupon = async () => {
+  if (!formData.couponCode.trim()) {
+    setCouponValidation({ isValid: false, message: 'Please enter a coupon code', coupon: null });
+    return;
+  }
 
-    try {
-      setCouponLoading(true);
-      const token = authService.getToken();
-      const validation = await couponService.validateCoupon(formData.couponCode, token);
-      setCouponValidation(validation);
-    } catch (error) {
-      setCouponValidation({ isValid: false, message: 'Error validating coupon', coupon: null });
-    } finally {
-      setCouponLoading(false);
-    }
-  };
+  try {
+    setCouponLoading(true);
+    const token = authService.getToken();
+    const validation = await couponService.validateAndUseCoupon(formData.couponCode, token);
+    setCouponValidation(validation);
+  } catch (error) {
+    setCouponValidation({ isValid: false, message: 'Error validating coupon', coupon: null });
+  } finally {
+    setCouponLoading(false);
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
