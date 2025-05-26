@@ -20,6 +20,7 @@ import Dashboard from './components/Dashboard';
 // Service requests features
 import { TechnicianServiceRequests, CustomerServiceRequests as Feature3CustomerServiceRequests } from './feature-3';
 import { CustomerServiceRequests } from './feature-2';
+import { Wallet } from './feature-4';
 import { PaymentMethodList } from './feature-6';
 
 // Import coupon management feature
@@ -127,6 +128,12 @@ function App() {
             </CustomerRoute>
           } />
           
+          {/* Wallet routes - Available for both customers and technicians */}
+          <Route path="/wallet" element={
+            <ProtectedRoute>
+              <Wallet />
+            </ProtectedRoute>
+          } />
           {/* Feature 4: Review Routes */}
           <Route path="/reviews" element={
             <ProtectedRoute>
